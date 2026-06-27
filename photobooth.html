@@ -1,1019 +1,1104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aneality Photobooth</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            background-color: #D9D9D9;
-            color: #333;
-            background-image: url('https://i.pinimg.com/originals/3e/8c/7b/3e8c7b6c6a1a8e1a0e8e1a0e8e1a0e8.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            overflow-x: hidden;
-        }
-
-        .container {
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        header {
-            font-size: 30px;
-            margin: 15px 0;
-            padding: 20px;
-            color: #FF5E8A;
-            text-shadow: 2px 2px 4px rgba(224, 74, 122, 0.3);
-        }
-
-        .guide {
-            background-color: rgba(217, 217, 217, 0.9);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .guide h2 {
-            color: #FF5E8A;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .guide ul {
-            text-align: left;
-            padding-left: 20px;
-            list-style: none;
-        }
-
-        .guide li {
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .guide button {
-            margin-top: 15px;
-            background-color: #FF5E8A;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 16px;
-            color: #FFFFFF;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .guide button:hover {
-            background-color: #E04A7A;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .layout {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .layout-selection {
-            position: relative;
-            margin: auto;
-            width: 1100px;
-            height: 500px;
-            border: 4px solid #FFFFFF;
-            border-radius: 40px;
-            overflow: hidden;
-            background-color: rgba(217, 217, 217, 0.9);
-        }
-
-        .select-frame h1 {
-            position: absolute;
-            top: 5%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: #FFFFFF;
-            background: none;
-            font-size: 2em;
-        }
-
-        .framelayout {
-            position: relative;
-            margin: auto;
-            top: 28%;
-            width: 900px;
-            height: 310px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .layoutframe {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .layoutframe img {
-            width: 200px;
-            height: 300px;
-            border-radius: 15px;
-            border: 2px solid #D9D9D9;
-            opacity: 0.8;
-        }
-
-        .layoutframe:hover img {
-            opacity: 1;
-            transform: scale(1.05);
-            border-color: #FF5E8A;
-        }
-
-        .video-container {
-            width: 100%;
-            max-width: 500px;
-            height: 300px;
-            border: 2px solid #D9D9D9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #FFFFFF;
-            position: relative;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
-
-        #video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: scaleX(-1);
-            border-radius: 8px;
-        }
-
-        .image-strip {
-            display: flex;
-            flex-direction: row;
-            border: 1px solid #D9D9D9;
-            padding: 5px;
-            gap: 5px;
-            background-color: #FFFFFF;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-            overflow-x: auto;
-            position: relative;
-        }
-
-        .image-strip img {
-            width: 100px;
-            height: 150px;
-            background-color: #FFFFFF;
-            border: 1px solid #D9D9D9;
-            object-fit: cover;
-            transform: scaleX(-1);
-            border-radius: 5px;
-            flex-shrink: 0;
-            cursor: pointer;
-        }
-
-        .filter {
-            position: absolute;
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .controls {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        button {
-            background-color: #FF5E8A;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 16px;
-            color: #FFFFFF;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            flex-grow: 1;
-            max-width: 200px;
-        }
-
-        button:hover {
-            background-color: #E04A7A;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .countdown {
-            position: absolute;
-            font-size: 80px;
-            color: #FF5E8A;
-            display: none;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-shadow: 0 0 10px #FFFFFF;
-            font-weight: bold;
-            z-index: 10;
-        }
-
-        #frame-selector, #filter-selector {
-            display: none;
-            margin-top: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        #frame-selector h3, #filter-selector h3 {
-            color: #FF5E8A;
-            margin-bottom: 15px;
-            font-size: 1.2em;
-        }
-
-        .frame-options-container, .filter-options-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 5px;
-        }
-
-        .frame-option {
-            width: 100px;
-            height: 100px;
-            border: 3px solid #D9D9D9;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            background-size: cover;
-        }
-
-        .frame-option:hover {
-            border-color: #FF5E8A;
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .filter-btn {
-            background-color: #FF5E8A;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            color: #FFFFFF;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 5px;
-        }
-
-        .filter-btn:hover {
-            background-color: #E04A7A;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .filter-btn.active {
-            background-color: #E04A7A;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .image-strip img.filter-none { filter: none; }
-        .image-strip img.filter-blackwhite { filter: grayscale(100%); }
-        .image-strip img.filter-sepia { filter: sepia(100%); }
-        .image-strip img.filter-vintage { filter: sepia(60%) contrast(1.2) brightness(0.9); }
-        .image-strip img.filter-brightness { filter: brightness(150%); }
-        .image-strip img.filter-contrast { filter: contrast(150%); }
-        .image-strip img.filter-saturation { filter: saturate(200%); }
-        .image-strip img.filter-invert { filter: invert(100%); }
-        .image-strip img.filter-blur { filter: blur(3px); }
-        .image-strip img.filter-huerotate { filter: hue-rotate(90deg); }
-        .image-strip img.filter-warm { filter: sepia(40%) brightness(1.1) saturate(1.3); }
-        .image-strip img.filter-cool { filter: brightness(1.1) contrast(1.1) hue-rotate(-20deg); }
-        .image-strip img.filter-softfocus { filter: blur(2px) brightness(1.1); }
-        .image-strip img.filter-hazydays { filter: brightness(1.2) contrast(0.9) opacity(0.9); }
-        .image-strip img.filter-rose { filter: sepia(20%) hue-rotate(330deg) saturate(1.5); }
-        .image-strip img.filter-retro { filter: sepia(40%) contrast(1.3) brightness(0.8); }
-        .image-strip img.filter-cocoa { filter: sepia(60%) brightness(0.9) contrast(1.1); }
-        .image-strip img.filter-xpro { filter: contrast(1.3) brightness(0.8) hue-rotate(10deg); }
-        .image-strip img.filter-envy { filter: hue-rotate(120deg) saturate(1.4); }
-        .image-strip img.filter-zinc { filter: grayscale(80%) contrast(1.2); }
-        .image-strip img.filter-silk { filter: brightness(1.1) contrast(0.9) sepia(10%); }
-        .image-strip img.filter-oldmovie { filter: sepia(70%) contrast(1.1) brightness(0.7); }
-        .image-strip img.filter-cocktail { filter: hue-rotate(30deg) saturate(1.6) brightness(1.2); }
-        .image-strip img.filter-spycam { filter: grayscale(100%) contrast(1.5) brightness(0.6); }
-
-        .music-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-        }
-
-        .music-control i {
-            font-size: 24px;
-            color: #FF5E8A;
-        }
-
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #FF5E8A;
-            opacity: 0;
-        }
-
-        .error {
-            color: #FFFFFF;
-            text-align: center;
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #FF5E8A;
-            border-radius: 5px;
-            display: none;
-        }
-
-        @media (min-width: 768px) {
-            header {
-                font-size: 2.5em;
-            }
-            .layout {
-                flex-direction: row;
-                gap: 30px;
-                margin-bottom: 30px;
-            }
-            .video-container {
-                height: 400px;
-            }
-            .image-strip {
-                flex-direction: column;
-                width: 150px;
-                height: 400px;
-                max-width: none;
-            }
-            .image-strip img {
-                width: 150px;
-                height: 100px;
-            }
-            .controls {
-                flex-direction: row;
-                justify-content: space-between;
-                padding: 0 20px;
-            }
-            .button-group {
-                gap: 20px;
-            }
-            button {
-                padding: 12px 35px;
-                max-width: none;
-            }
-            #frame-selector, #filter-selector {
-                max-width: 800px;
-            }
-            .frame-option {
-                width: 100px;
-                height: 100px;
-            }
-            .layout-selection {
-                width: 900px;
-                height: 400px;
-            }
-            .framelayout {
-                width: 700px;
-                height: 250px;
-            }
-            .layoutframe img {
-                width: 150px;
-                height: 225px;
-            }
-        }
-
-        @media (min-width: 992px) {
-            .layout {
-                gap: 50px;
-            }
-            .controls {
-                padding: 0 50px;
-            }
-            .button-group {
-                gap: 30px;
-            }
-            #frame-selector, #filter-selector {
-                max-width: 1000px;
-            }
-            .frame-option {
-                width: 120px;
-                height: 120px;
-            }
-            .layout-selection {
-                width: 1100px;
-                height: 500px;
-            }
-            .framelayout {
-                width: 900px;
-                height: 310px;
-            }
-            .layoutframe img {
-                width: 200px;
-                height: 300px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>✦ Aneality Photobooth ✦</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      background: radial-gradient(circle at 20% 30%, #fce4ec, #e8eaf6);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      padding: 30px 25px;
+      border-radius: 48px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.6);
+      width: 100%;
+      max-width: 1200px;
+      border: 1px solid rgba(255, 182, 193, 0.3);
+      transition: all 0.3s ease;
+    }
+    header {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 2.8rem;
+      letter-spacing: 2px;
+      background: linear-gradient(145deg, #d81b60, #7c4dff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 0 12px 0;
+      text-shadow: 0 4px 20px rgba(124, 77, 255, 0.15);
+    }
+    .guide {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(4px);
+      padding: 24px 30px;
+      border-radius: 32px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      border: 1px solid rgba(215, 185, 255, 0.25);
+    }
+    .guide h2 {
+      font-family: 'Playfair Display', serif;
+      color: #7c4dff;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 18px;
+      font-size: 1.8rem;
+    }
+    .guide ul {
+      text-align: left;
+      padding-left: 8px;
+      list-style: none;
+    }
+    .guide li {
+      margin-bottom: 10px;
+      color: #3e3a5e;
+      font-weight: 300;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .guide li::before {
+      content: "✦";
+      color: #d81b60;
+      font-weight: 300;
+      font-size: 1.2rem;
+    }
+    .guide button {
+      margin-top: 18px;
+      background: linear-gradient(135deg, #d81b60, #b388ff);
+      border: none;
+      padding: 14px 42px;
+      border-radius: 60px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 20px rgba(216, 27, 96, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .guide button:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 14px 30px rgba(124, 77, 255, 0.3);
+      background: linear-gradient(135deg, #c2185b, #7c4dff);
+    }
+    .layout-selection {
+      margin: 20px auto;
+      width: 100%;
+      max-width: 1000px;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(6px);
+      border-radius: 60px;
+      padding: 30px 20px 40px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    }
+    .select-frame h1 {
+      font-family: 'Playfair Display', serif;
+      color: #4a2c7a;
+      font-weight: 400;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      background: linear-gradient(145deg, #7c4dff, #d81b60);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 30px;
+    }
+    .framelayout {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .layoutframe {
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border-radius: 32px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+    }
+    .layoutframe img {
+      width: 200px;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 24px;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      transition: all 0.3s ease;
+      filter: saturate(0.9) brightness(1.02);
+    }
+    .layoutframe:hover {
+      transform: scale(1.03) translateY(-6px);
+      border-color: #d81b60;
+      box-shadow: 0 20px 40px rgba(216, 27, 96, 0.15);
+    }
+    .layout {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: stretch;
+      gap: 30px;
+      margin: 20px 0 30px;
+      flex-wrap: wrap;
+    }
+    .video-container {
+      flex: 1 1 480px;
+      max-width: 560px;
+      height: 380px;
+      border-radius: 32px;
+      overflow: hidden;
+      background: #f3edff;
+      position: relative;
+      box-shadow: 0 12px 40px rgba(124, 77, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+    #video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+      display: block;
+    }
+    .countdown {
+      position: absolute;
+      font-size: 90px;
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0 0 30px rgba(124, 77, 255, 0.7), 0 0 60px #d81b60;
+      display: none;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      font-family: 'Playfair Display', serif;
+      background: rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(2px);
+      padding: 10px 30px;
+      border-radius: 100px;
+    }
+    .image-strip {
+      flex: 1 1 160px;
+      max-width: 180px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      border-radius: 32px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.02);
+      overflow-y: auto;
+      max-height: 400px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: rgba(255, 255, 255, 0.7);
+      transition: all 0.3s ease;
+    }
+    .image-strip img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      transform: scaleX(-1);
+      border-radius: 18px;
+      background: #f5f0ff;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.2s ease;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+    .image-strip img:hover {
+      border-color: #b388ff;
+      transform: scale(1.02);
+      box-shadow: 0 8px 20px rgba(124, 77, 255, 0.1);
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px 24px;
+      margin: 25px 0 10px;
+      padding: 10px 10px 0;
+    }
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+    button {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 12px 28px;
+      border-radius: 60px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #2d2a4a;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 0.3px;
+    }
+    button i {
+      font-size: 1.1rem;
+      color: #7c4dff;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #f3edff, #ffffff);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(124, 77, 255, 0.15);
+      border-color: #b388ff;
+      color: #1f1a3a;
+    }
+    button:active {
+      transform: scale(0.97);
+    }
+    #start {
+      background: linear-gradient(135deg, #d81b60, #b388ff);
+      color: white;
+      border: none;
+      box-shadow: 0 8px 24px rgba(216, 27, 96, 0.2);
+    }
+    #start i {
+      color: white;
+    }
+    #start:hover {
+      background: linear-gradient(135deg, #c2185b, #7c4dff);
+      box-shadow: 0 12px 32px rgba(124, 77, 255, 0.3);
+    }
+    #frame-selector, #filter-selector {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 24px 20px;
+      border-radius: 44px;
+      margin: 20px auto;
+      max-width: 700px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.02);
+    }
+    #frame-selector h3, #filter-selector h3 {
+      font-family: 'Playfair Display', serif;
+      color: #4a2c7a;
+      font-weight: 400;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      background: linear-gradient(145deg, #7c4dff, #d81b60);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .frame-options-container, .filter-options-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      max-height: 360px;
+      overflow-y: auto;
+      padding: 8px;
+    }
+    .frame-option {
+      width: 100px;
+      height: 100px;
+      border-radius: 24px;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    }
+    .frame-option:hover {
+      border-color: #b388ff;
+      transform: scale(1.06) translateY(-4px);
+      box-shadow: 0 16px 30px rgba(124, 77, 255, 0.12);
+    }
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #2d2a4a;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+    .filter-btn:hover {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: #b388ff;
+      transform: translateY(-2px);
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, #d81b60, #b388ff);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 8px 20px rgba(216, 27, 96, 0.15);
+    }
+    .music-control {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 14px;
+      border-radius: 60px;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      z-index: 100;
+      color: #7c4dff;
+      font-size: 1.4rem;
+    }
+    .music-control:hover {
+      transform: scale(1.06);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 12px 40px rgba(124, 77, 255, 0.1);
+    }
+    .error {
+      background: rgba(216, 27, 96, 0.08);
+      backdrop-filter: blur(6px);
+      color: #a03a6a;
+      padding: 12px 22px;
+      border-radius: 40px;
+      border: 1px solid rgba(216, 27, 96, 0.1);
+      margin: 10px auto;
+      display: none;
+      max-width: 500px;
+      font-weight: 400;
+    }
+    .confetti {
+      position: fixed;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .frame-options-container::-webkit-scrollbar,
+    .filter-options-container::-webkit-scrollbar,
+    .image-strip::-webkit-scrollbar {
+      width: 4px;
+    }
+    .frame-options-container::-webkit-scrollbar-track,
+    .filter-options-container::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.02);
+      border-radius: 20px;
+    }
+    .frame-options-container::-webkit-scrollbar-thumb,
+    .filter-options-container::-webkit-scrollbar-thumb {
+      background: #d81b60;
+      border-radius: 20px;
+    }
+    @media (max-width: 700px) {
+      .container { padding: 20px 12px; }
+      header { font-size: 2rem; }
+      .layout { flex-direction: column; align-items: center; }
+      .video-container { height: 280px; width: 100%; }
+      .image-strip { flex-direction: row; max-width: 100%; max-height: 140px; overflow-x: auto; flex-wrap: nowrap; padding: 12px; gap: 8px; }
+      .image-strip img { min-width: 120px; height: 100px; }
+      .framelayout { gap: 20px; }
+      .layoutframe img { width: 140px; height: 200px; }
+      .guide { padding: 18px; }
+    }
+    @media (max-width: 450px) {
+      .container { padding: 16px 8px; }
+      header { font-size: 1.6rem; }
+      button { padding: 10px 16px; font-size: 0.8rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>Aneality Photobooth</header>
-        <div class="guide" id="guide">
-            <h2>Cara Menggunakan Photo Booth</h2>
-            <ul>
-                <li>1. Pilih jumlah foto (3 atau 4) dengan mengklik salah satu opsi layout di layar awal.</li>
-                <li>2. Klik tombol "Mulai" untuk memulai sesi pengambilan foto.</li>
-                <li>3. Izinkan akses kamera saat diminta untuk menampilkan video.</li>
-                <li>4. Posisikan diri Anda di depan kamera dan tunggu hitungan mundur (3 detik) untuk setiap foto.</li>
-                <li>5. Pilih frame foto dengan mengklik "Pilih Frame" dan memilih frame yang diinginkan.</li>
-                <li>6. Tambahkan filter pada foto dengan mengklik foto di strip, lalu pilih "Pilih Filter" dan klik filter yang diinginkan.</li>
-                <li>7. Klik "Retry" untuk mengulang pengambilan foto jika diperlukan.</li>
-                <li>8. Klik "Download" untuk menyimpan hasil foto dalam format PNG.</li>
-                <li>9. Gunakan ikon musik di pojok kanan bawah untuk mengontrol musik latar.</li>
-            </ul>
-            <button id="start-guide">Mulai</button>
-        </div>
-        <div class="layout-selection" id="layout-selection">
-            <div class="select-frame">
-                <h1>Pilih Layout Foto</h1>
-            </div>
-            <div class="framelayout">
-                <div class="layoutframe" data-count="3">
-                    <img src="layout3.png" alt="3 Photos">
-                </div>
-                <div class="layoutframe" data-count="4">
-                    <img src="layout4.png" alt="4 Photos">
-                </div>
-            </div>
-        </div>
-        <div class="layout" id="main-content" style="display: none;">
-            <div class="video-container">
-                <video id="video" autoplay></video>
-                <div id="countdown" class="countdown">3</div>
-            </div>
-            <div class="image-strip" id="image-strip">
-                <img alt="img">
-                <img alt="img">
-                <img alt="img">
-                <img alt="img">
-            </div>
-        </div>
-        <div class="error" id="errorMessage"></div>
-        <div id="frame-selector" style="display: none;">
-            <h3>Pilih Frame Foto:</h3>
-            <div class="frame-options-container">
-                <div class="frame-option" style="background-image: url('quality_restoration_20250528084346828.png');" data-frame="frame1"></div>
-                <div class="frame-option" style="background-image: url('quality_restoration_20250528084414026.png');" data-frame="frame2"></div>
-                <div class="frame-option" style="background-image: url('quality_restoration_20250528084427018.png');" data-frame="frame3"></div>
-                <div class="frame-option" style="background-image: url('quality_restoration_20250528084602616.png');" data-frame="frame4"></div>
-                <div class="frame-option" style="background-image: url('quality_restoration_20250528084734724.png');" data-frame="frame5"></div>
-                <div class="frame-option" style="background-image: url('quality_restoration_20250528084847737.png');" data-frame="frame6"></div>
-                <div class="frame-option" style="background-image: url('quality_restoration_20250528085103163.png');" data-frame="frame7"></div>
-                <div class="frame-option" style="background-image: url('quality_restoration_20250528085236265.png');" data-frame="frame8"></div>
-                <div class="frame-option" style="background-image: url('6c0344d5-88ca-4535-bc74-0b2814a6056c.png');" data-frame="frame9"></div>
-                <div class="frame-option" style="background-image: url('305ec223-e8b8-4a88-b039-416a0650de0f.png');" data-frame="frame10"></div>
-                <div class="frame-option" style="background-image: url('1748396154649.png');" data-frame="frame11"></div>
-                <div class="frame-option" style="background-image: url('1748396348025.png');" data-frame="frame12"></div>
-                <div class="frame-option" style="background-image: url('1748396469257.png');" data-frame="frame13"></div>
-                <div class="frame-option" style="background-image: url('1748396504794.png');" data-frame="frame14"></div>
-            </div>
-        </div>
-        <div id="filter-selector" style="display: none;">
-            <h3>Pilih Filter:</h3>
-            <div class="filter-options-container">
-                <button class="filter-btn active" data-filter="none">No Filter</button>
-                <button class="filter-btn" data-filter="blackwhite">Black & White</button>
-                <button class="filter-btn" data-filter="sepia">Sepia</button>
-                <button class="filter-btn" data-filter="vintage">Vintage</button>
-                <button class="filter-btn" data-filter="brightness">Brightness</button>
-                <button class="filter-btn" data-filter="contrast">Contrast</button>
-                <button class="filter-btn" data-filter="saturation">Saturation</button>
-                <button class="filter-btn" data-filter="invert">Invert</button>
-                <button class="filter-btn" data-filter="blur">Blur</button>
-                <button class="filter-btn" data-filter="huerotate">Hue Rotate</button>
-                <button class="filter-btn" data-filter="warm">Warm</button>
-                <button class="filter-btn" data-filter="cool">Cool</button>
-                <button class="filter-btn" data-filter="softfocus">Soft Focus</button>
-                <button class="filter-btn" data-filter="hazydays">Hazy Days</button>
-                <button class="filter-btn" data-filter="rose">Rose</button>
-                <button class="filter-btn" data-filter="retro">Retro</button>
-                <button class="filter-btn" data-filter="cocoa">Cocoa</button>
-                <button class="filter-btn" data-filter="xpro">X-Pro</button>
-                <button class="filter-btn" data-filter="envy">Envy</button>
-                <button class="filter-btn" data-filter="zinc">Zinc</button>
-                <button class="filter-btn" data-filter="silk">Silk</button>
-                <button class="filter-btn" data-filter="oldmovie">Old Movie</button>
-                <button class="filter-btn" data-filter="cocktail">Cocktail</button>
-                <button class="filter-btn" data-filter="spycam">Spy Cam</button>
-            </div>
-        </div>
-        <div class="controls" id="controls" style="display: none;">
-            <div class="button-group">
-                <button id="start"><i class="fas fa-camera"></i> Start</button>
-                <button id="retry"><i class="fas fa-redo"></i> Retry</button>
-            </div>
-            <div class="button-group">
-                <button id="select-frame"><i class="fas fa-frame"></i> Pilih Frame</button>
-                <button id="select-filter"><i class="fas fa-sticker-mule"></i> Pilih Filter</button>
-                <button id="download"><i class="fas fa-download"></i> Download</button>
-            </div>
-        </div>
+<div class="container">
+  <header>✦ Aneality Photobooth ✦</header>
+
+  <div class="guide" id="guide">
+    <h2>How to use</h2>
+    <ul>
+      <li>Choose 3 or 4 photos layout</li>
+      <li>Click Start & allow camera access</li>
+      <li>Strike a pose! Countdown 3..2..1</li>
+      <li>Pick a frame & add filters to each photo</li>
+      <li>Download your elegant photo strip</li>
+    </ul>
+  </div>
+
+  <div class="layout-selection" id="layout-selection">
+    <div class="select-frame"><h1>Select your layout</h1></div>
+    <div class="framelayout">
+      <div class="layoutframe" data-count="3"><img src="layout3.png" alt="3 photos" /></div>
+      <div class="layoutframe" data-count="4"><img src="layout4.png" alt="4 photos" /></div>
     </div>
-    <div class="music-control" id="music-control">
-        <i class="fas fa-pause"></i>
+  </div>
+
+  <div class="layout" id="main-content" style="display: none;">
+    <div class="video-container">
+      <video id="video" autoplay></video>
+      <div id="countdown" class="countdown">3</div>
     </div>
-    <audio id="background-music" loop>
-        <source src="SpotiDownloader.com - BILOLANGON - Dorman Manik.mp3" type="audio/mpeg">
-    </audio>
-    <script>
-        const video = document.getElementById('video');
-        const startButton = document.getElementById('start');
-        const retryButton = document.getElementById('retry');
-        const downloadButton = document.getElementById('download');
-        const selectFrameButton = document.getElementById('select-frame');
-        const selectFilterButton = document.getElementById('select-filter');
-        const startGuideButton = document.getElementById('start-guide');
-        const countdown = document.getElementById('countdown');
-        const imageStripContainer = document.getElementById('image-strip');
-        const imageStrip = imageStripContainer.getElementsByTagName('img');
-        const frameSelector = document.getElementById('frame-selector');
-        const filterSelector = document.getElementById('filter-selector');
-        const frameOptions = document.querySelectorAll('.frame-option');
-        const filterOptions = document.querySelectorAll('.filter-btn');
-        const musicControl = document.getElementById('music-control');
-        const backgroundMusic = document.getElementById('background-music');
-        const layoutFrames = document.querySelectorAll('.layoutframe');
-        const guide = document.getElementById('guide');
-        const mainContent = document.getElementById('main-content');
-        const controls = document.getElementById('controls');
-        const layoutSelection = document.getElementById('layout-selection');
-        const errorMessage = document.getElementById('errorMessage');
+    <div class="image-strip" id="image-strip"></div>
+  </div>
 
-        let currentFrame = 'frame1';
-        let isMusicPlaying = false;
-        let photoCount = 4;
-        let filters = [];
+  <div class="error" id="errorMessage"></div>
 
-        const frameSources = {
-            frame1: { url: 'quality_restoration_20250528084346828.png', position: '0 0' },
-            frame2: { url: 'quality_restoration_20250528084414026.png', position: '0 0' },
-            frame3: { url: 'quality_restoration_20250528084427018.png', position: '0 0' },
-            frame4: { url: 'quality_restoration_20250528084602616.png', position: '0 0' },
-            frame5: { url: 'quality_restoration_20250528084734724.png', position: '0 0' },
-            frame6: { url: 'quality_restoration_20250528084847737.png', position: '0 0' },
-            frame7: { url: 'quality_restoration_20250528085103163.png', position: '0 0' },
-            frame8: { url: 'quality_restoration_20250528085236265.png', position: '0 0' },
-            frame9: { url: '6c0344d5-88ca-4535-bc74-0b2814a6056c.png', position: '0 0' },
-            frame10: { url: '305ec223-e8b8-4a88-b039-416a0650de0f.png', position: '0 0' },
-            frame11: { url: '1748396154649.png', position: '0 0' },
-            frame12: { url: '1748396348025.png', position: '0 0' },
-            frame13: { url: '1748396469257.png', position: '0 0' },
-            frame14: { url: '1748396504794.png', position: '0 0' }
-        };
+  <div id="frame-selector" style="display: none;">
+    <h3>choose frame</h3>
+    <div class="frame-options-container">
+      <div class="frame-option" style="background-image: url('quality_restoration_20250528084346828.png');" data-frame="frame1"></div>
+      <div class="frame-option" style="background-image: url('quality_restoration_20250528084414026.png');" data-frame="frame2"></div>
+      <div class="frame-option" style="background-image: url('quality_restoration_20250528084427018.png');" data-frame="frame3"></div>
+      <div class="frame-option" style="background-image: url('quality_restoration_20250528084602616.png');" data-frame="frame4"></div>
+      <div class="frame-option" style="background-image: url('quality_restoration_20250528084734724.png');" data-frame="frame5"></div>
+      <div class="frame-option" style="background-image: url('quality_restoration_20250528084847737.png');" data-frame="frame6"></div>
+      <div class="frame-option" style="background-image: url('quality_restoration_20250528085103163.png');" data-frame="frame7"></div>
+      <div class="frame-option" style="background-image: url('quality_restoration_20250528085236265.png');" data-frame="frame8"></div>
+      <div class="frame-option" style="background-image: url('6c0344d5-88ca-4535-bc74-0b2814a6056c.png');" data-frame="frame9"></div>
+      <div class="frame-option" style="background-image: url('305ec223-e8b8-4a88-b039-416a0650de0f.png');" data-frame="frame10"></div>
+      <div class="frame-option" style="background-image: url('1748396154649.png');" data-frame="frame11"></div>
+      <div class="frame-option" style="background-image: url('1748396348025.png');" data-frame="frame12"></div>
+      <div class="frame-option" style="background-image: url('1748396469257.png');" data-frame="frame13"></div>
+      <div class="frame-option" style="background-image: url('1748396504794.png');" data-frame="frame14"></div>
+    </div>
+  </div>
 
-        document.querySelector('.image-strip').style.backgroundColor = '#FFFFFF';
+  <div id="filter-selector" style="display: none;">
+    <h3>pick filter</h3>
+    <div class="filter-options-container">
+      <button class="filter-btn active" data-filter="none">No Filter</button>
+      <button class="filter-btn" data-filter="blackwhite">B&W</button>
+      <button class="filter-btn" data-filter="sepia">Sepia</button>
+      <button class="filter-btn" data-filter="vintage">Vintage</button>
+      <button class="filter-btn" data-filter="brightness">Bright</button>
+      <button class="filter-btn" data-filter="contrast">Contrast</button>
+      <button class="filter-btn" data-filter="saturation">Saturate</button>
+      <button class="filter-btn" data-filter="invert">Invert</button>
+      <button class="filter-btn" data-filter="blur">Blur</button>
+      <button class="filter-btn" data-filter="huerotate">Hue</button>
+      <button class="filter-btn" data-filter="warm">Warm</button>
+      <button class="filter-btn" data-filter="cool">Cool</button>
+      <button class="filter-btn" data-filter="softfocus">Soft</button>
+      <button class="filter-btn" data-filter="hazydays">Hazy</button>
+      <button class="filter-btn" data-filter="rose">Rose</button>
+      <button class="filter-btn" data-filter="retro">Retro</button>
+      <button class="filter-btn" data-filter="cocoa">Cocoa</button>
+      <button class="filter-btn" data-filter="xpro">X-Pro</button>
+      <button class="filter-btn" data-filter="envy">Envy</button>
+      <button class="filter-btn" data-filter="zinc">Zinc</button>
+      <button class="filter-btn" data-filter="silk">Silk</button>
+      <button class="filter-btn" data-filter="oldmovie">OldMovie</button>
+      <button class="filter-btn" data-filter="cocktail">Cocktail</button>
+      <button class="filter-btn" data-filter="spycam">SpyCam</button>
+    </div>
+  </div>
 
-        function initializeMusic() {
-            backgroundMusic.volume = 0.5;
-            const playPromise = backgroundMusic.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    isMusicPlaying = true;
-                    musicControl.innerHTML = '<i class="fas fa-pause"></i>';
-                }).catch(error => {
-                    isMusicPlaying = false;
-                    musicControl.innerHTML = '<i class="fas fa-music"></i>';
-                    console.error("Failed to play audio:", error);
-                    showError("Gagal memutar musik. Silakan klik ikon musik untuk memutar.");
-                });
-            }
+  <div class="controls" id="controls" style="display: none;">
+    <div class="button-group">
+      <button id="start"><i class="fas fa-camera"></i> Start</button>
+      <button id="retry"><i class="fas fa-undo-alt"></i> Retry</button>
+    </div>
+    <div class="button-group">
+      <button id="select-frame"><i class="fas fa-image"></i> Frame</button>
+      <button id="select-filter"><i class="fas fa-wand-magic-sparkles"></i> Filter</button>
+      <button id="download"><i class="fas fa-download"></i> Download</button>
+    </div>
+  </div>
+</div>
+
+<div class="music-control" id="music-control"><i class="fas fa-pause"></i></div>
+<audio id="background-music" loop>
+  <source src="SpotiDownloader.com - BILOLANGON - Dorman Manik.mp3" type="audio/mpeg" />
+</audio>
+
+<script>
+  (function() {
+    const video = document.getElementById('video');
+    const startButton = document.getElementById('start');
+    const retryButton = document.getElementById('retry');
+    const downloadButton = document.getElementById('download');
+    const selectFrameButton = document.getElementById('select-frame');
+    const selectFilterButton = document.getElementById('select-filter');
+    const countdown = document.getElementById('countdown');
+    const imageStripContainer = document.getElementById('image-strip');
+    const frameSelector = document.getElementById('frame-selector');
+    const filterSelector = document.getElementById('filter-selector');
+    const frameOptions = document.querySelectorAll('.frame-option');
+    const filterOptions = document.querySelectorAll('.filter-btn');
+    const musicControl = document.getElementById('music-control');
+    const backgroundMusic = document.getElementById('background-music');
+    const layoutFrames = document.querySelectorAll('.layoutframe');
+    const guide = document.getElementById('guide');
+    const mainContent = document.getElementById('main-content');
+    const controls = document.getElementById('controls');
+    const layoutSelection = document.getElementById('layout-selection');
+    const errorMessage = document.getElementById('errorMessage');
+
+    let currentFrame = 'frame1';
+    let isMusicPlaying = false;
+    let photoCount = 4;
+    let filters = [];
+    let selectedImageIndex = null;
+    let isCapturing = false;
+    let cameraStream = null;
+    let currentFrameUrl = '';
+
+    const frameSources = {
+      frame1: { url: 'quality_restoration_20250528084346828.png' },
+      frame2: { url: 'quality_restoration_20250528084414026.png' },
+      frame3: { url: 'quality_restoration_20250528084427018.png' },
+      frame4: { url: 'quality_restoration_20250528084602616.png' },
+      frame5: { url: 'quality_restoration_20250528084734724.png' },
+      frame6: { url: 'quality_restoration_20250528084847737.png' },
+      frame7: { url: 'quality_restoration_20250528085103163.png' },
+      frame8: { url: 'quality_restoration_20250528085236265.png' },
+      frame9: { url: '6c0344d5-88ca-4535-bc74-0b2814a6056c.png' },
+      frame10: { url: '305ec223-e8b8-4a88-b039-416a0650de0f.png' },
+      frame11: { url: '1748396154649.png' },
+      frame12: { url: '1748396348025.png' },
+      frame13: { url: '1748396469257.png' },
+      frame14: { url: '1748396504794.png' }
+    };
+
+    function setPhotoCount(count) {
+      photoCount = parseInt(count);
+      imageStripContainer.innerHTML = '';
+      for (let i = 0; i < photoCount; i++) {
+        const img = document.createElement('img');
+        img.alt = '';
+        img.dataset.index = i;
+        img.addEventListener('click', function(e) {
+          selectedImageIndex = parseInt(this.dataset.index);
+          filterSelector.style.display = 'block';
+          frameSelector.style.display = 'none';
+        });
+        imageStripContainer.appendChild(img);
+      }
+    }
+
+    function showLayoutSelection() {
+      guide.style.display = 'block';
+      layoutSelection.style.display = 'block';
+      mainContent.style.display = 'none';
+      controls.style.display = 'none';
+      frameSelector.style.display = 'none';
+      filterSelector.style.display = 'none';
+    }
+
+    function showMainContent() {
+      guide.style.display = 'none';
+      layoutSelection.style.display = 'none';
+      mainContent.style.display = 'flex';
+      controls.style.display = 'flex';
+      initializeCamera();
+    }
+
+    function initializeCamera() {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+      }
+      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        .then(stream => {
+          cameraStream = stream;
+          video.srcObject = stream;
+        })
+        .catch(err => {
+          console.error("Camera error:", err);
+          showError("Camera access needed. Please allow.");
+        });
+    }
+
+    function playMusicDirectly() {
+      backgroundMusic.volume = 0.6;
+      backgroundMusic.play()
+        .then(() => {
+          isMusicPlaying = true;
+          musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+        })
+        .catch(() => {
+          isMusicPlaying = false;
+          musicControl.innerHTML = '<i class="fas fa-music"></i>';
+          document.addEventListener('click', function playOnClick() {
+            backgroundMusic.play().then(() => {
+              isMusicPlaying = true;
+              musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+              document.removeEventListener('click', playOnClick);
+            }).catch(e => console.warn('Still cannot play:', e));
+          }, { once: true });
+        });
+    }
+    window.addEventListener('load', playMusicDirectly);
+
+    function startCountdown() {
+      return new Promise(resolve => {
+        countdown.style.display = 'block';
+        let count = 3;
+        countdown.innerText = count;
+        const interval = setInterval(() => {
+          count--;
+          countdown.innerText = count;
+          if (count === 0) {
+            clearInterval(interval);
+            countdown.style.display = 'none';
+            resolve();
+          }
+        }, 1000);
+      });
+    }
+
+    async function captureImages() {
+      if (isCapturing) return;
+      if (!video.srcObject) {
+        showError('Camera not ready. Please allow camera.');
+        return;
+      }
+      isCapturing = true;
+      for (let img of imageStripContainer.querySelectorAll('img')) {
+        img.src = '';
+        img.className = '';
+      }
+      filters = [];
+
+      for (let i = 0; i < photoCount; i++) {
+        await startCountdown();
+        const canvas = document.createElement('canvas');
+        const w = video.videoWidth || 640;
+        const h = video.videoHeight || 480;
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.translate(w, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(video, 0, 0, w, h);
+        const imgs = imageStripContainer.querySelectorAll('img');
+        if (imgs[i]) {
+          imgs[i].src = canvas.toDataURL('image/png');
+          imgs[i].classList.add('filter-none');
         }
+        if (i < photoCount - 1) createConfetti();
+      }
+      for (let i = 0; i < 30; i++) setTimeout(() => createConfetti(), i * 60);
+      isCapturing = false;
+    }
 
-        function initializeCameraAndMusic() {
-            navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-                video.srcObject = stream;
-                initializeMusic();
-            }).catch(err => {
-                console.error("Error accessing camera: ", err);
-                showError("Tidak dapat mengakses kamera. Pastikan Anda telah memberikan izin kamera.");
-                initializeMusic();
-            });
-        }
+    function createConfetti() {
+      const el = document.createElement('div');
+      el.className = 'confetti';
+      const colors = ['#d81b60', '#b388ff', '#7c4dff', '#f06292', '#e1bee7'];
+      el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      el.style.width = (Math.random() * 8 + 4) + 'px';
+      el.style.height = (Math.random() * 8 + 4) + 'px';
+      el.style.left = Math.random() * window.innerWidth + 'px';
+      el.style.top = '-10px';
+      el.style.borderRadius = '50%';
+      el.style.opacity = '1';
+      document.body.appendChild(el);
+      let pos = 0;
+      const speed = Math.random() * 4 + 3;
+      const drift = (Math.random() - 0.5) * 6;
+      const animate = () => {
+        pos += 0.6;
+        el.style.transform = `translate(${drift * pos}px, ${pos * speed}px) rotate(${pos * 5}deg)`;
+        el.style.opacity = 1 - pos / 45;
+        if (pos < 40) requestAnimationFrame(animate);
+        else el.remove();
+      };
+      requestAnimationFrame(animate);
+    }
 
-        async function captureImages() {
-            filters = [];
-            for (let img of imageStrip) {
-                img.src = '';
-                img.style.position = '';
-                img.classList.remove(
-                    'filter-none', 'filter-blackwhite', 'filter-sepia', 'filter-vintage',
-                    'filter-brightness', 'filter-contrast', 'filter-saturation', 'filter-invert',
-                    'filter-blur', 'filter-huerotate', 'filter-warm', 'filter-cool',
-                    'filter-softfocus', 'filter-hazydays', 'filter-rose', 'filter-retro',
-                    'filter-cocoa', 'filter-xpro', 'filter-envy', 'filter-zinc',
-                    'filter-silk', 'filter-oldmovie', 'filter-cocktail', 'filter-spycam'
-                );
-            }
+    function retryAll() {
+      if (isCapturing) return;
+      for (let img of imageStripContainer.querySelectorAll('img')) {
+        img.src = '';
+        img.className = '';
+      }
+      filters = [];
+      selectedImageIndex = null;
+      filterSelector.style.display = 'none';
+      frameSelector.style.display = 'none';
+    }
+
+    function retrySingle(index) {
+      if (isCapturing) return;
+      const imgs = imageStripContainer.querySelectorAll('img');
+      if (imgs[index]) {
+        imgs[index].src = '';
+        imgs[index].className = '';
+        filters = filters.filter(f => f.imgIndex !== index);
+      }
+      selectedImageIndex = null;
+      filterSelector.style.display = 'none';
+    }
+
+    imageStripContainer.addEventListener('dblclick', function(e) {
+      const img = e.target.closest('img');
+      if (img && img.dataset.index !== undefined) {
+        retrySingle(parseInt(img.dataset.index));
+      }
+    });
+
+    function getFilterCSS(type) {
+      const map = {
+        'blackwhite': 'grayscale(100%)',
+        'sepia': 'sepia(100%)',
+        'vintage': 'sepia(60%) contrast(1.2) brightness(0.9)',
+        'brightness': 'brightness(150%)',
+        'contrast': 'contrast(150%)',
+        'saturation': 'saturate(200%)',
+        'invert': 'invert(100%)',
+        'blur': 'blur(3px)',
+        'huerotate': 'hue-rotate(90deg)',
+        'warm': 'sepia(40%) brightness(1.1) saturate(1.3)',
+        'cool': 'brightness(1.1) contrast(1.1) hue-rotate(-20deg)',
+        'softfocus': 'blur(2px) brightness(1.1)',
+        'hazydays': 'brightness(1.2) contrast(0.9) opacity(0.9)',
+        'rose': 'sepia(20%) hue-rotate(330deg) saturate(1.5)',
+        'retro': 'sepia(40%) contrast(1.3) brightness(0.8)',
+        'cocoa': 'sepia(60%) brightness(0.9) contrast(1.1)',
+        'xpro': 'contrast(1.3) brightness(0.8) hue-rotate(10deg)',
+        'envy': 'hue-rotate(120deg) saturate(1.4)',
+        'zinc': 'grayscale(80%) contrast(1.2)',
+        'silk': 'brightness(1.1) contrast(0.9) sepia(10%)',
+        'oldmovie': 'sepia(70%) contrast(1.1) brightness(0.7)',
+        'cocktail': 'hue-rotate(30deg) saturate(1.6) brightness(1.2)',
+        'spycam': 'grayscale(100%) contrast(1.5) brightness(0.6)',
+        'none': 'none'
+      };
+      return map[type] || 'none';
+    }
+
+    function downloadImages() {
+      const imgs = imageStripContainer.querySelectorAll('img');
+      let hasContent = false;
+      for (let img of imgs) {
+        if (img.src && img.src.length > 0) { hasContent = true; break; }
+      }
+      if (!hasContent) { showError('Please capture photos first.'); return; }
+
+      // Gunakan canvas untuk menggabungkan frame dan foto
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Ukuran default jika frame tidak bisa di-load
+      let frameWidth = 600;
+      let frameHeight = 800;
+      
+      // Load frame image
+      const frameImg = new Image();
+      frameImg.crossOrigin = 'Anonymous';
+      const frameUrl = currentFrameUrl || frameSources[currentFrame]?.url;
+      
+      if (!frameUrl) {
+        showError('Please select a frame first.');
+        return;
+      }
+
+      frameImg.onload = function() {
+        frameWidth = frameImg.width;
+        frameHeight = frameImg.height;
+        canvas.width = frameWidth;
+        canvas.height = frameHeight;
+        
+        // Draw frame
+        ctx.drawImage(frameImg, 0, 0, frameWidth, frameHeight);
+        
+        // Calculate photo positions within frame
+        const padding = Math.min(frameWidth, frameHeight) * 0.08;
+        const photoWidth = frameWidth - (padding * 2);
+        const totalPhotoHeight = frameHeight - (padding * (photoCount + 1));
+        const photoHeight = totalPhotoHeight / photoCount;
+        const startX = padding;
+        
+        let loaded = 0;
+        let toLoad = 0;
+        
+        for (let i = 0; i < photoCount; i++) {
+          const imgEl = imgs[i];
+          if (!imgEl || !imgEl.src || imgEl.src.length === 0) { 
+            loaded++; 
+            continue; 
+          }
+          toLoad++;
+          const img = new Image();
+          img.crossOrigin = 'Anonymous';
+          img.src = imgEl.src;
+          img.onload = () => {
+            const y = padding + i * (photoHeight + padding);
             
-            for (let i = 0; i < photoCount; i++) {
-                await startCountdown();
-                const canvas = document.createElement('canvas');
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                canvas.getContext('2d').drawImage(video, 0, 0);
-                imageStrip[i].src = canvas.toDataURL('image/png');
-                
-                if (i < photoCount - 1) createConfetti();
-            }
-            
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => createConfetti(), i * 50);
-            }
-        }
-
-        function createConfetti() {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            confetti.style.left = Math.random() * window.innerWidth + 'px';
-            const hue = Math.random() * 360;
-            confetti.style.backgroundColor = `hsl(${hue}, 100%, 50%)`;
-            confetti.style.width = Math.random() * 10 + 5 + 'px';
-            confetti.style.height = Math.random() * 10 + 5 + 'px';
-            document.body.appendChild(confetti);
-            
-            let pos = 0;
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = Math.random() * 5 + 5;
-            const rotation = Math.random() * 10 - 5;
-            let rotationSpeed = 0;
-            
-            const animate = () => {
-                pos += 0.1;
-                rotationSpeed += rotation * 0.01;
-                confetti.style.opacity = `${1 - pos / 20}`;
-                confetti.style.transform = `translate(${Math.sin(angle) * pos * velocity}px, ${pos * velocity}px) rotate(${rotationSpeed}turn)`;
-                if (pos < 20) {
-                    requestAnimationFrame(animate);
-                } else {
-                    confetti.remove();
-                }
-            };
-            
-            requestAnimationFrame(animate);
-        }
-
-        function startCountdown() {
-            return new Promise(resolve => {
-                countdown.style.display = 'block';
-                let count = 3;
-                countdown.innerText = count;
-                const interval = setInterval(() => {
-                    count--;
-                    countdown.innerText = count;
-                    if (count === 0) {
-                        clearInterval(interval);
-                        countdown.style.display = 'none';
-                        resolve();
-                    }
-                }, 1000);
-            });
-        }
-
-        function downloadImages() {
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            const imageWidth = imageStrip[0].naturalWidth || 300;
-            const imageHeight = imageStrip[0].naturalHeight || 200;
-            const padding = 20;
-            const framePadding = 10;
-
-            canvas.width = imageWidth + 2 * (padding + framePadding);
-            canvas.height = (imageHeight + padding) * photoCount + padding + 2 * framePadding;
-
-            const frameImg = new Image();
-            frameImg.crossOrigin = 'Anonymous';
-            frameImg.src = frameSources[currentFrame].url;
-            frameImg.onload = () => {
-                context.drawImage(frameImg, 0, 0, canvas.width, canvas.height);
-
-                context.fillStyle = '#FFFFFF';
-                context.fillRect(framePadding, framePadding, canvas.width - 2 * framePadding, canvas.height - 2 * framePadding);
-
-                let imagesLoaded = 0;
-                for (let i = 0; i < photoCount; i++) {
-                    if (imageStrip[i].src) {
-                        const img = new Image();
-                        img.crossOrigin = 'Anonymous';
-                        img.src = imageStrip[i].src;
-                        img.onload = () => {
-                            context.save();
-                            context.translate(canvas.width, framePadding + padding + i * (imageHeight + padding));
-                            context.scale(-1, 1);
-                            context.drawImage(img, framePadding + padding, 0, imageWidth, imageHeight);
-                            context.restore();
-
-                            imagesLoaded++;
-                            if (imagesLoaded === photoCount) {
-                                const a = document.createElement('a');
-                                a.href = canvas.toDataURL('image/png');
-                                a.download = 'aneality_booth.png';
-                                a.click();
-                            }
-                        };
-                        img.onerror = () => {
-                            imagesLoaded++;
-                            if (imagesLoaded === photoCount) {
-                                const a = document.createElement('a');
-                                a.href = canvas.toDataURL('image/png');
-                                a.download = 'aneality_booth.png';
-                                a.click();
-                            }
-                        };
-                    } else {
-                        imagesLoaded++;
-                        if (imagesLoaded === photoCount) {
-                            const a = document.createElement('a');
-                            a.href = canvas.toDataURL('image/png');
-                            a.download = 'aneality_booth.png';
-                            a.click();
-                        }
-                    }
-                }
-            };
-            frameImg.onerror = () => {
-                context.fillStyle = '#FFFFFF';
-                context.fillRect(0, 0, canvas.width, canvas.height);
-                let imagesLoaded = 0;
-                for (let i = 0; i < photoCount; i++) {
-                    if (imageStrip[i].src) {
-                        const img = new Image();
-                        img.crossOrigin = 'Anonymous';
-                        img.src = imageStrip[i].src;
-                        img.onload = () => {
-                            context.save();
-                            context.translate(canvas.width, framePadding + padding + i * (imageHeight + padding));
-                            context.scale(-1, 1);
-                            context.drawImage(img, framePadding + padding, 0, imageWidth, imageHeight);
-                            context.restore();
-
-                            imagesLoaded++;
-                            if (imagesLoaded === photoCount) {
-                                const a = document.createElement('a');
-                                a.href = canvas.toDataURL('image/png');
-                                a.download = 'aneality_booth.png';
-                                a.click();
-                            }
-                        };
-                        img.onerror = () => {
-                            imagesLoaded++;
-                            if (imagesLoaded === photoCount) {
-                                const a = document.createElement('a');
-                                a.href = canvas.toDataURL('image/png');
-                                a.download = 'aneality_booth.png';
-                                a.click();
-                            }
-                        };
-                    } else {
-                        imagesLoaded++;
-                        if (imagesLoaded === photoCount) {
-                            const a = document.createElement('a');
-                            a.href = canvas.toDataURL('image/png');
-                            a.download = 'aneality_booth.png';
-                            a.click();
-                        }
-                    }
-                }
-            };
-        }
-
-        function retryImages() {
-            filters = [];
-            for (let i = 0; i < photoCount; i++) {
-                imageStrip[i].src = '';
-                imageStrip[i].classList.remove(
-                    'filter-none', 'filter-blackwhite', 'filter-sepia', 'filter-vintage',
-                    'filter-brightness', 'filter-contrast', 'filter-saturation', 'filter-invert',
-                    'filter-blur', 'filter-huerotate', 'filter-warm', 'filter-cool',
-                    'filter-softfocus', 'filter-hazydays', 'filter-rose', 'filter-retro',
-                    'filter-cocoa', 'filter-xpro', 'filter-envy', 'filter-zinc',
-                    'filter-silk', 'filter-oldmovie', 'filter-cocktail', 'filter-spycam'
-                );
-            }
-        }
-
-        function toggleFrameSelector() {
-            frameSelector.style.display = frameSelector.style.display === 'none' ? 'block' : 'none';
-            filterSelector.style.display = 'none';
-        }
-
-        function toggleFilterSelector() {
-            filterSelector.style.display = filterSelector.style.display === 'none' ? 'block' : 'none';
-            frameSelector.style.display = 'none';
-        }
-
-        function selectFrame(frame) {
-            currentFrame = frame;
-            imageStripContainer.style.backgroundImage = `url(${frameSources[frame].url})`;
-            imageStripContainer.style.backgroundPosition = frameSources[frame].position;
-            imageStripContainer.style.backgroundSize = 'cover';
-            imageStripContainer.style.backgroundRepeat = 'no-repeat';
-            frameSelector.style.display = 'none';
-        }
-
-        function setPhotoCount(count) {
-            photoCount = parseInt(count);
-            filters = [];
-            imageStripContainer.innerHTML = '';
-            for (let i = 0; i < photoCount; i++) {
-                const img = document.createElement('img');
-                img.alt = 'img';
-                img.addEventListener('click', () => selectImageForFilter(i));
-                imageStripContainer.appendChild(img);
-            }
-            if (window.innerWidth >= 768) {
-                imageStripContainer.style.height = photoCount === 3 ? '300px' : '400px';
-            }
-        }
-
-        let selectedImageIndex = null;
-
-        function selectImageForFilter(index) {
-            selectedImageIndex = index;
-            toggleFilterSelector();
-        }
-
-        function applyFilter(filterType) {
-            if (selectedImageIndex === null) return;
-
-            imageStrip[selectedImageIndex].classList.remove(
-                'filter-none', 'filter-blackwhite', 'filter-sepia', 'filter-vintage',
-                'filter-brightness', 'filter-contrast', 'filter-saturation', 'filter-invert',
-                'filter-blur', 'filter-huerotate', 'filter-warm', 'filter-cool',
-                'filter-softfocus', 'filter-hazydays', 'filter-rose', 'filter-retro',
-                'filter-cocoa', 'filter-xpro', 'filter-envy', 'filter-zinc',
-                'filter-silk', 'filter-oldmovie', 'filter-cocktail', 'filter-spycam'
-            );
-
-            imageStrip[selectedImageIndex].classList.add(`filter-${filterType}`);
-
-            filters = filters.filter(f => f.imgIndex !== selectedImageIndex);
-            filters.push({
-                imgIndex: selectedImageIndex,
-                type: filterType
-            });
-
-            filterOptions.forEach(btn => btn.classList.remove('active'));
-            const activeBtn = Array.from(filterOptions).find(btn => btn.dataset.filter === filterType);
-            if (activeBtn) activeBtn.classList.add('active');
-
-            filterSelector.style.display = 'none';
-            selectedImageIndex = null;
-        }
-
-        function toggleMusic() {
-            if (isMusicPlaying) {
-                backgroundMusic.pause();
-                musicControl.innerHTML = '<i class="fas fa-music"></i>';
+            // Apply filter if any
+            const filter = filters.find(f => f.imgIndex === i);
+            if (filter && filter.type !== 'none') {
+              ctx.filter = getFilterCSS(filter.type);
             } else {
-                backgroundMusic.play().then(() => {
-                    musicControl.innerHTML = '<i class="fas fa-pause"></i>';
-                }).catch(error => {
-                    console.error("Failed to play audio on toggle:", error);
-                    showError("Gagal memutar musik. Pastikan file audio tersedia.");
-                });
+              ctx.filter = 'none';
             }
-            isMusicPlaying = !isMusicPlaying;
-        }
-
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-            setTimeout(() => {
-                errorMessage.style.display = 'none';
-            }, 3000);
-        }
-
-        function showLayoutSelection() {
-            guide.style.display = 'block';
-            layoutSelection.style.display = 'block';
-            mainContent.style.display = 'none';
-            controls.style.display = 'none';
-            frameSelector.style.display = 'none';
-            filterSelector.style.display = 'none';
-        }
-
-        function showMainContent() {
-            guide.style.display = 'none';
-            layoutSelection.style.display = 'none';
-            mainContent.style.display = 'flex';
-            controls.style.display = 'flex';
-            initializeCameraAndMusic();
-        }
-
-        startButton.addEventListener('click', captureImages);
-        downloadButton.addEventListener('click', downloadImages);
-        retryButton.addEventListener('click', retryImages);
-        selectFrameButton.addEventListener('click', toggleFrameSelector);
-        selectFilterButton.addEventListener('click', toggleFilterSelector);
-        musicControl.addEventListener('click', toggleMusic);
-        startGuideButton.addEventListener('click', showLayoutSelection);
-
-        frameOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                selectFrame(this.dataset.frame);
-            });
-        });
-
-        filterOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                applyFilter(this.dataset.filter);
-            });
-        });
-
-        layoutFrames.forEach(frame => {
-            frame.addEventListener('click', function() {
-                setPhotoCount(this.dataset.count);
-                showMainContent();
-            });
-        });
-
-        document.body.addEventListener('click', function() {
-            if (!isMusicPlaying) {
-                backgroundMusic.play()
-                    .then(() => {
-                        isMusicPlaying = true;
-                        musicControl.innerHTML = '<i class="fas fa-pause"></i>';
-                    })
-                    .catch(e => console.error("Still can't play:", e));
+            
+            // Draw photo (mirrored)
+            ctx.save();
+            ctx.translate(startX + photoWidth, y);
+            ctx.scale(-1, 1);
+            ctx.drawImage(img, 0, 0, photoWidth, photoHeight);
+            ctx.restore();
+            
+            loaded++;
+            if (loaded === toLoad + (photoCount - toLoad)) {
+              triggerDownload(canvas);
             }
-        }, { once: true });
+          };
+          img.onerror = () => { 
+            loaded++; 
+            if (loaded === toLoad + (photoCount - toLoad)) {
+              triggerDownload(canvas);
+            }
+          };
+        }
+        if (toLoad === 0) {
+          triggerDownload(canvas);
+        }
+      };
+      
+      frameImg.onerror = function() {
+        // Jika frame gagal di-load, buat frame sederhana
+        showError('Frame image not found. Creating basic frame.');
+        canvas.width = 600;
+        canvas.height = 800;
+        
+        // Draw simple frame
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, '#f3e5f5');
+        gradient.addColorStop(1, '#e8eaf6');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Border
+        ctx.strokeStyle = '#7c4dff';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+        
+        // Draw photos in simple frame
+        const padding = 40;
+        const photoWidth = canvas.width - (padding * 2);
+        const totalPhotoHeight = canvas.height - (padding * (photoCount + 1));
+        const photoHeight = totalPhotoHeight / photoCount;
+        const startX = padding;
+        
+        let loaded = 0;
+        let toLoad = 0;
+        
+        for (let i = 0; i < photoCount; i++) {
+          const imgEl = imgs[i];
+          if (!imgEl || !imgEl.src || imgEl.src.length === 0) { 
+            loaded++; 
+            continue; 
+          }
+          toLoad++;
+          const img = new Image();
+          img.crossOrigin = 'Anonymous';
+          img.src = imgEl.src;
+          img.onload = () => {
+            const y = padding + i * (photoHeight + padding);
+            
+            const filter = filters.find(f => f.imgIndex === i);
+            if (filter && filter.type !== 'none') {
+              ctx.filter = getFilterCSS(filter.type);
+            } else {
+              ctx.filter = 'none';
+            }
+            
+            ctx.save();
+            ctx.translate(startX + photoWidth, y);
+            ctx.scale(-1, 1);
+            ctx.drawImage(img, 0, 0, photoWidth, photoHeight);
+            ctx.restore();
+            
+            loaded++;
+            if (loaded === toLoad + (photoCount - toLoad)) {
+              triggerDownload(canvas);
+            }
+          };
+          img.onerror = () => { 
+            loaded++; 
+            if (loaded === toLoad + (photoCount - toLoad)) {
+              triggerDownload(canvas);
+            }
+          };
+        }
+        if (toLoad === 0) {
+          triggerDownload(canvas);
+        }
+      };
+      
+      frameImg.src = frameUrl;
+    }
 
-        backgroundMusic.addEventListener('error', (e) => {
-            console.error("Audio loading error:", e);
-            showError("Gagal memuat file audio. Pastikan koneksi internet stabil atau file audio tersedia.");
-        });
-    </script>
+    function triggerDownload(canvas) {
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'aneality_booth.png';
+      a.click();
+    }
+
+    function selectFrame(frame) {
+      currentFrame = frame;
+      const src = frameSources[frame];
+      if (src) {
+        currentFrameUrl = src.url;
+        // Set background image for strip
+        imageStripContainer.style.backgroundImage = `url(${src.url})`;
+        imageStripContainer.style.backgroundSize = 'cover';
+        imageStripContainer.style.backgroundPosition = 'center';
+        imageStripContainer.style.backgroundRepeat = 'no-repeat';
+        imageStripContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
+      }
+      frameSelector.style.display = 'none';
+    }
+
+    function applyFilter(filterType) {
+      if (selectedImageIndex === null) {
+        showError('Click on a photo first to apply filter.');
+        return;
+      }
+      const imgs = imageStripContainer.querySelectorAll('img');
+      const target = imgs[selectedImageIndex];
+      if (!target || !target.src || target.src.length === 0) {
+        showError('No photo at that slot.');
+        return;
+      }
+      target.className = '';
+      target.classList.add(`filter-${filterType}`);
+      filters = filters.filter(f => f.imgIndex !== selectedImageIndex);
+      filters.push({ imgIndex: selectedImageIndex, type: filterType });
+      filterSelector.style.display = 'none';
+      selectedImageIndex = null;
+    }
+
+    function toggleFrameSelector() {
+      frameSelector.style.display = frameSelector.style.display === 'none' ? 'block' : 'none';
+      filterSelector.style.display = 'none';
+    }
+
+    function toggleFilterSelector() {
+      filterSelector.style.display = filterSelector.style.display === 'none' ? 'block' : 'none';
+      frameSelector.style.display = 'none';
+    }
+
+    function toggleMusic() {
+      if (isMusicPlaying) {
+        backgroundMusic.pause();
+        musicControl.innerHTML = '<i class="fas fa-music"></i>';
+      } else {
+        backgroundMusic.play().then(() => {
+          musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+        }).catch(() => showError('Audio error'));
+      }
+      isMusicPlaying = !isMusicPlaying;
+    }
+
+    function showError(msg) {
+      errorMessage.textContent = msg;
+      errorMessage.style.display = 'block';
+      setTimeout(() => { errorMessage.style.display = 'none'; }, 3500);
+    }
+
+    // --- event binding ---
+    layoutFrames.forEach(frame => {
+      frame.addEventListener('click', function() {
+        setPhotoCount(this.dataset.count);
+        showMainContent();
+      });
+    });
+
+    startButton.addEventListener('click', captureImages);
+    retryButton.addEventListener('click', retryAll);
+    downloadButton.addEventListener('click', downloadImages);
+    selectFrameButton.addEventListener('click', toggleFrameSelector);
+    selectFilterButton.addEventListener('click', toggleFilterSelector);
+    musicControl.addEventListener('click', toggleMusic);
+
+    frameOptions.forEach(opt => {
+      opt.addEventListener('click', function() {
+        selectFrame(this.dataset.frame);
+      });
+    });
+
+    filterOptions.forEach(btn => {
+      btn.addEventListener('click', function() {
+        filterOptions.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        applyFilter(this.dataset.filter);
+      });
+    });
+
+    // initial state
+    setPhotoCount(4);
+    showLayoutSelection();
+
+    // CSS filters
+    const style = document.createElement('style');
+    style.textContent = `
+      .filter-none { filter: none; }
+      .filter-blackwhite { filter: grayscale(100%); }
+      .filter-sepia { filter: sepia(100%); }
+      .filter-vintage { filter: sepia(60%) contrast(1.2) brightness(0.9); }
+      .filter-brightness { filter: brightness(150%); }
+      .filter-contrast { filter: contrast(150%); }
+      .filter-saturation { filter: saturate(200%); }
+      .filter-invert { filter: invert(100%); }
+      .filter-blur { filter: blur(3px); }
+      .filter-huerotate { filter: hue-rotate(90deg); }
+      .filter-warm { filter: sepia(40%) brightness(1.1) saturate(1.3); }
+      .filter-cool { filter: brightness(1.1) contrast(1.1) hue-rotate(-20deg); }
+      .filter-softfocus { filter: blur(2px) brightness(1.1); }
+      .filter-hazydays { filter: brightness(1.2) contrast(0.9) opacity(0.9); }
+      .filter-rose { filter: sepia(20%) hue-rotate(330deg) saturate(1.5); }
+      .filter-retro { filter: sepia(40%) contrast(1.3) brightness(0.8); }
+      .filter-cocoa { filter: sepia(60%) brightness(0.9) contrast(1.1); }
+      .filter-xpro { filter: contrast(1.3) brightness(0.8) hue-rotate(10deg); }
+      .filter-envy { filter: hue-rotate(120deg) saturate(1.4); }
+      .filter-zinc { filter: grayscale(80%) contrast(1.2); }
+      .filter-silk { filter: brightness(1.1) contrast(0.9) sepia(10%); }
+      .filter-oldmovie { filter: sepia(70%) contrast(1.1) brightness(0.7); }
+      .filter-cocktail { filter: hue-rotate(30deg) saturate(1.6) brightness(1.2); }
+      .filter-spycam { filter: grayscale(100%) contrast(1.5) brightness(0.6); }
+    `;
+    document.head.appendChild(style);
+
+    // keyboard shortcut: Retry on R
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'r' || e.key === 'R') retryAll();
+    });
+  })();
+</script>
 </body>
 </html>
